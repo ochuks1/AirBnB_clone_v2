@@ -25,10 +25,10 @@ class FileStorage:
                 temp[key] = val.to_dict()
             json.dump(temp, f)
 
-            def all(self, cls=None):
+    def all(self, cls=None):
         """If cls is provided, returns only objects of that type."""
         if cls:
-            return {k: v for k, v in self.__objects.items() if isinstance(v, cls)}
+        return {k: v for k, v in self.__objects.items() if isinstance(v, cls)}
         return self.__objects
 
     def delete(self, obj=None):
@@ -36,7 +36,25 @@ class FileStorage:
         if obj:
             key = f"{obj.__class__.__name__}.{obj.id}"
             if key in self.__objects:
+            del self.__objects[key]
+
+     def delete(self, obj=None):
+        """Deletes obj from __objects if it's inside"""
+        if obj is not None:
+            key = obj.__class__.__name__ + '.' + obj.id
+            if key in self.__objects:
                 del self.__objects[key]
+    
+    def all(self, cls=None):
+        """Returns a dictionary of models currently in storage"""
+        if cls is None:
+            return self.__objects
+        else:
+            filtered_objects = {}
+            for key, obj in self.__objects.items():
+                if isinstance(obj, cls):
+                    filtered_objects[key] = obj
+            return filtered_objects        
 
     def reload(self):
         """Loads storage dictionary from file"""

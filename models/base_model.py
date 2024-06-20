@@ -48,4 +48,12 @@ class BaseModel:
 
      def delete(self):
         """Deletes the current instance from the storage"""
-        models.storage.delete(self)
+         models.storage.delete(self)
+      def to_dict(self):
+        dictionary = self.__dict__.copy()
+        if '_sa_instance_state' in dictionary:
+            del dictionary['_sa_instance_state']
+        dictionary['__class__'] = self.__class__.__name__
+        dictionary['created_at'] = self.created_at.isoformat()
+        dictionary['updated_at'] = self.updated_at.isoformat()
+        return dictionary    
