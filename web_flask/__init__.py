@@ -1,12 +1,10 @@
 #!/usr/bin/python3
+"""
+Init file for web_flask.
+"""
 from flask import Flask
 
 def create_app():
-    """Create and configure an instance of the Flask application."""
+    """Creates a Flask application instance."""
     app = Flask(__name__)
-
-    @app.route('/hello', strict_slashes=False)
-    def hello():
-        return "Hello HBNB!"
-
     return app
